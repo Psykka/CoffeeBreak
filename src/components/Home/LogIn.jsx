@@ -2,7 +2,7 @@ import googleLogo from '../../assets/google.png'
 
 function LogIn() {
   return (
-    <>
+    <div className='text-center'>
       <button onClick={() => {
         window.location.href = '/signin'
       }}>
@@ -10,10 +10,10 @@ function LogIn() {
       </button>
       <p>Ou continue com</p>
       <button>
-        <img src={googleLogo} alt="" />
+        <img className='h-10 w-10' src={googleLogo} alt="Google" />
       </button>
       <p>Não tem conta? <span>Registre-se aqui</span></p>
-    </>
+    </div>
   );
 }
 

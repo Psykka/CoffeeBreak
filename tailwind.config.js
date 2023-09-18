@@ -6,6 +6,11 @@ export default {
   ],
   theme: {
     extend: {},
+    colors: {
+      beige: '#EAC696',
+      brown: '#6C3428',
+      white: '#FFFFFF'
+    }
   },
   plugins: [],
 }
