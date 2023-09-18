@@ -1,14 +1,12 @@
 import { Outlet } from "react-router-dom";
 
-import './Home.css'
-
 function Home() {
   return (
-    <>
-      <h1>Bem-vindo!</h1>
-      <img src="https://placehold.co/220x180" alt="" />
+    <section className="flex flex-col content-center">
+      <img className="object-contain" src="https://placehold.co/220x180" alt="Logo" />
+      <h1 className="text-4xl text-center">Bem-vindo!</h1>
       <Outlet />
-    </>
+    </section>
   );
 }
 

@@ -5,10 +5,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import "./index.css";
 import Home from './components/Home/Home'
 import LogIn from './components/Home/LogIn'
 import SignIn from './components/Home/SignIn'
+
+import './index.css'
 
 const router = createBrowserRouter([
   {
