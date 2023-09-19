@@ -2,3 +2,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-login {
+    background: theme('colors.light-beige');
+    border-radius: 30px;
+    color: #fff;
+    padding: 8px;
+    width: 70px;
+    border: 3px solid theme('colors.brown');
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border-radius: 23px;
+    color: theme('colors.brown');
+    padding: 10px;
+    width: 50vw;
+    border: 3px solid theme('colors.brown');
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

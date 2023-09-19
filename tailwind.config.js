@@ -8,6 +8,7 @@ export default {
     extend: {},
     colors: {
       beige: '#EAC696',
+      'light-beige': '#FFEACD',
       brown: '#6C3428',
       white: '#FFFFFF'
     }
