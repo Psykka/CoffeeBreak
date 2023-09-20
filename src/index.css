@@ -28,4 +28,9 @@
     justify-content: center;
     align-items: center;
   }
+
+  .input-home {
+    @apply bg-light-beige text-brown rounded-full h-10 py-6 px-4 outline-none
+    placeholder:text-brown
+  }
 }
