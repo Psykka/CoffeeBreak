@@ -15,8 +15,8 @@ function SignIn() {
         <div className='flex flex-col items-center'>
           <input type="file" id="file" className="hidden" />
           <label htmlFor="file">
-            <img src={pfp} alt="profile picture" className="rounded-full h-41 w-41" />
-            <p className='text-brown font-semibold text-md mt-4'>
+            <img src={pfp} alt="profile picture" className="cursor-pointer rounded-full h-41 w-41" />
+            <p className='text-brown font-semibold text-md mt-4 cursor-pointer'>
               Adicionar foto
             </p>
           </label>
