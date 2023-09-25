@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-beige text-brown
+  }
+}
+
 @layer components {
   .btn-login {
     background: theme('colors.light-beige');
@@ -31,6 +37,18 @@
 
   .input-home {
     @apply bg-light-beige text-brown rounded-full h-10 py-6 px-4 outline-none
-    placeholder:text-brown
+    placeholder:text-brown;
+  }
+
+  .checkbox {
+    @apply appearance-none accent-brown w-4 h-4 border-2 border-brown rounded
+  checked:bg-brown focus:outline-none;
+  }
+
+  .checkbox:checked {
+    background-image: url('./assets/check.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
   }
 }

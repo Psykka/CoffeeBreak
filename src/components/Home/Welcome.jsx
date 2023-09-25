@@ -26,7 +26,7 @@ function Welcome() {
         </button>
       </div>
       <div>
-        <p>Não tem conta? <span className='text-brown font-semibold'>Registre-se aqui</span></p>
+        <p>Não tem conta? <a href="/signin"><span className='text-brown font-semibold'>Registre-se aqui</span></a></p>
       </div>
     </div>
   );

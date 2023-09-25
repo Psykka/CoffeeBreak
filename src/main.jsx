@@ -7,7 +7,7 @@ import {
 
 import Home from './components/Home/Home'
 import Welcome from './components/Home/Welcome'
-import SignIn from './components/Home/SignIn'
+import SignIn from './components/SignIn'
 import LogIn from "./components/Home/LogIn";
 
 import './index.css'
@@ -22,15 +22,15 @@ const router = createBrowserRouter([
         element: <Welcome />
       },
       {
-        path: '/signin',
-        element: <SignIn />
-      },
-      {
         path: '/login',
         element: <LogIn />
       }
-    ]
-  }
+    ],
+  },
+  {
+    path: '/signin',
+    element: <SignIn />
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
