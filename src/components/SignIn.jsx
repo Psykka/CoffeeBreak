@@ -21,7 +21,7 @@ function SignIn() {
             </p>
           </label>
         </div>
-        <div className='flex flex-col space-y-4 w-72'>
+        <div className='flex flex-col space-y-4 w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5'>
           <input className='input-home' type="text" placeholder="Nome" />
           <input className='input-home' type="email" placeholder="E-Mail" />
           <input className='input-home' type="password" placeholder="Senha" />

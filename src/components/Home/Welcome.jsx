@@ -14,7 +14,7 @@ function Welcome() {
       </div>
       <div className='flex flex-row justify-center align-middle p-2 space-x-2'>
         <img className='rotate-180' src={line} />
-        <p className='sm:p-0 md:p-2'>Ou continue com</p>
+        <p className='sm:p-0 md:p-2 mb-1'>Ou continue com</p>
         <img src={line} />
       </div>
       <div className='flex justify-center align-middle p-2 space-x-2'>
