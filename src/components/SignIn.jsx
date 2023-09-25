@@ -32,7 +32,7 @@ function SignIn() {
           </div>
           <label htmlFor className='text-sm'>Eu aceito os <a href="/termos"><span className="text-brown font-semibold">Termos de uso</span></a></label>
         </div>
-        <button className='btn-outline w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5'>
+        <button className='btn-outline w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6'>
           Cadastrar
         </button>
       </form>
