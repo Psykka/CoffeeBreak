@@ -36,6 +36,17 @@
     justify-content: center;
     align-items: center;
   }
+  .counter {
+    text-stroke: 8px theme('colors.brown');
+    -webkit-text-stroke: 8px theme('colors.brown');
+    font-size: 150px;
+  }
+
+  .counter-subtitle {
+    text-stroke: 3px theme('colors.brown');
+    -webkit-text-stroke: 3px theme('colors.brown');
+    font-size: 55px;
+  }
 
   .input-home {
     @apply bg-light-beige text-brown rounded-full h-10 py-6 px-4 outline-none
