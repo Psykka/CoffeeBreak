@@ -10,8 +10,12 @@ import Welcome from './components/Home/Welcome'
 import SignIn from './components/SignIn'
 import LogIn from "./components/Home/LogIn";
 import Coffee from "./components/Coffee/Coffee";
-
+import PasswordRecovery from "./components/Password/PasswordRecovery";
 import './index.css'
+import EmailCheck from "./components/Password/EmailCheck";
+import CreatePassword from "./components/Password/CreatePassword";
+import CoffeePrice from "./components/Admin/CoffeePrice";
+
 
 const router = createBrowserRouter([
   {
@@ -39,6 +43,22 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: <h1>404</h1>
+  },
+  {
+    path: '/PasswordRecovery',
+    element: <PasswordRecovery/>
+  },
+  {
+    path: '/EmailCheck',
+    element: <EmailCheck/>
+  },
+  {
+    path:'/CreatePassword',
+    element: <CreatePassword/>
+  },
+  {
+    path:'/CoffeePrice',
+    element: <CoffeePrice/>
   }
 ]);
 
