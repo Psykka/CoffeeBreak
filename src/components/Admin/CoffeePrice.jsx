@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Header from '../Header/Header';
 
 function CoffeePrice() {
   const [valorCotacao, setValorCotacao] = useState(20);
@@ -26,6 +27,9 @@ function CoffeePrice() {
 
   return (
     <div className="flex flex-col h-screen">
+      
+      <Header />
+      
       <h1 className="text-3xl font-bold text-center mt-16">Cotação do café</h1>
       <div className="flex flex-row justify-center mt-10 space-x-4 items-center"> {/* Espaço entre os blocos de contador */}
         <div className='rounded shadow-md bg-yellow h-28 w-44 text-white'>

@@ -11,7 +11,9 @@ export default {
       'light-beige': '#FFEACD',
       brown: '#6C3428',
       white: '#FFFFFF',
-      yellow:'#ffedd5'
+      yellow:'#ffedd5',
+      green: '#12842B',
+      red: '#FF0202'
     }
   },
   plugins: [],

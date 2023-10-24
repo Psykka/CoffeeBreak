@@ -12,10 +12,9 @@ const Coffee = () => {
             Felipe Kamada
           </h2>
         </div>
-        <img src="https://avatars.githubusercontent.com/u/112417899" alt="profile picture" className="rounded-full h-20 w-20" />
+        <img src="https://github.com/kamadarada.png" alt="profile picture" className="rounded-full h-20 w-20" />
       </div>
-      {/* stack text top of image */}
-      <div className="relative flex flex-col text-white items-center">
+      <div className="relative flex flex-col text-white items-center ">
         <img src={beams} alt="beams" />
         <div className="flex flex-col items-center absolute top-0">
           <p className="counter font-bold">
@@ -26,7 +25,11 @@ const Coffee = () => {
           </p>
         </div>
       </div>
-      <button>Pegar café</button>
+      <div className="flex flex-col items-center m-20">
+        <button className="bg-brown text-white w-64 p-2 rounded w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 mt-10">
+          Pegar café
+        </button>
+      </div>
     </div>
   )
 }

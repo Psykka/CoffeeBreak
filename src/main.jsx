@@ -15,6 +15,7 @@ import './index.css'
 import EmailCheck from "./components/Password/EmailCheck";
 import CreatePassword from "./components/Password/CreatePassword";
 import CoffeePrice from "./components/Admin/CoffeePrice";
+import ListUsers from "./components/Admin/ListUsers";
 
 
 const router = createBrowserRouter([
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
   {
     path:'/CoffeePrice',
     element: <CoffeePrice/>
+  },
+  {
+    path:'/ListUsers',
+    element: <ListUsers/>
   }
 ]);
 
