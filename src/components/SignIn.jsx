@@ -1,7 +1,6 @@
 import pfp from '../assets/pfp.png'
-import { useDispatch } from 'react-redux'
 import { useState } from 'react'
-import { auth } from '../reducers/pocketbaseReducer'
+import { auth } from '../lib/pocketbase'
 
 function SignIn() {
   const [registry, setRegistry] = useState({
@@ -10,14 +9,9 @@ function SignIn() {
     password: '',
   })
 
-  const [isLoding, setIsLoading] = useState(false)
-
-  const dispatch = useDispatch()
-  const login = async (e) => {
-    setIsLoading(true)
-    await dispatch(auth({ type: 'signup', ...registry }))
-    dispatch(auth({ type: 'email', email: registry.email, password: registry.password }))
+  const register = async (e) => {
     e.preventDefault()
+    const user = await auth({ ...registry }, 'singin')
   }
 
   return (
@@ -30,7 +24,7 @@ function SignIn() {
           Seja bem vindo
         </h2>
       </div>
-      <form className='flex flex-col items-center space-y-4' onSubmit={login}>
+      <form className='flex flex-col items-center space-y-4' onSubmit={register}>
         <div className='flex flex-col items-center'>
           <input type="file" id="file" className="hidden" />
           <label htmlFor="file">
@@ -52,7 +46,7 @@ function SignIn() {
           <label htmlFor="checkbox" className='text-sm'>Eu aceito os <a href="/termos"><span className="text-brown font-semibold">Termos de uso</span></a></label>
         </div>
         <button className='btn-outline w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6'>
-          {isLoding ? 'Cadastrando...' : 'Criar conta'}
+          Criar conta
         </button>
       </form>
       <p>Já tem conta? <a href="/login"><span className='text-brown font-semibold'>Entre aqui</span></a></p>

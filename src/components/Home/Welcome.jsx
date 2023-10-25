@@ -2,14 +2,12 @@ import googleLogo from '../../assets/google.svg'
 import instagramLogo from '../../assets/instagram.svg'
 import line from '../../assets/line.svg'
 
-import { useDispatch } from 'react-redux'
-import { auth } from '../../reducers/pocketbaseReducer'
+import { auth } from '../../lib/pocketbase'
 
 function Welcome() {
-
-  const dispatch = useDispatch()
-
-  const login = (type) => () => dispatch(auth({ type }))
+  const login = (type) => async () => {
+    const user = await auth({}, type)
+  }
 
   return (
     <div className='text-center space-y-4'>
