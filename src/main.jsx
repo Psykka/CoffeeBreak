@@ -1,5 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -17,6 +19,7 @@ import CreatePassword from "./components/Password/CreatePassword";
 import CoffeePrice from "./components/Admin/CoffeePrice";
 import ListUsers from "./components/Admin/ListUsers";
 
+import { store } from './store'
 
 const router = createBrowserRouter([
   {
@@ -69,6 +72,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

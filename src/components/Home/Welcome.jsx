@@ -2,7 +2,15 @@ import googleLogo from '../../assets/google.svg'
 import instagramLogo from '../../assets/instagram.svg'
 import line from '../../assets/line.svg'
 
+import { useDispatch } from 'react-redux'
+import { auth } from '../../reducers/pocketbaseReducer'
+
 function Welcome() {
+
+  const dispatch = useDispatch()
+
+  const login = (type) => () => dispatch(auth({ type }))
+
   return (
     <div className='text-center space-y-4'>
       <div className='flex flex-row justify-center align-middle p-2 space-x-2 my-6 mb-10'>
@@ -19,10 +27,10 @@ function Welcome() {
       </div>
       <div className='flex justify-center align-middle p-2 space-x-2'>
         <button className='btn-login'>
-          <img className='h-9 w-9' src={googleLogo} alt="Google" />
+          <img className='h-9 w-9' src={googleLogo} onClick={login('google')} alt="Google" />
         </button>
         <button className='btn-login'>
-          <img className='h-9 w-9' src={instagramLogo} alt="Google" />
+          <img className='h-9 w-9' src={instagramLogo} onClick={login('instagram')} alt="Google" />
         </button>
       </div>
       <div>
