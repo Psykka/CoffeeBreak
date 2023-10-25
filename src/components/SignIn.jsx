@@ -1,6 +1,6 @@
 import pfp from '../assets/pfp.png'
 import { useState } from 'react'
-import { auth } from '../lib/pocketbase'
+import { auth, pb } from '../lib/pocketbase'
 
 function SignIn() {
   const [registry, setRegistry] = useState({
@@ -11,7 +11,11 @@ function SignIn() {
 
   const register = async (e) => {
     e.preventDefault()
-    const user = await auth({ ...registry }, 'singin')
+    await auth({ ...registry }, 'singin')
+
+    if (pb.authStore.isValid) {
+      return window.location.href = '/coffee'
+    }
   }
 
   return (

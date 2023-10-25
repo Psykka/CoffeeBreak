@@ -1,6 +1,25 @@
+import { useState } from 'react'
+import { useEffect } from 'react'
 import beams from '../../assets/beams.svg'
+import { pb } from '../../lib/pocketbase'
 
 const Coffee = () => {
+  const [remaning, setRemaning] = useState(0)
+
+  const getRemaning = async () => {
+    const res = await pb.collection('remainingDrink').getFullList()
+
+    if (res.length <= 0) return setRemaning(0)
+
+    setRemaning(res[0])
+  }
+
+  useEffect(() => {
+    if (!pb.authStore.isValid) return window.location.href = '/'
+
+    getRemaning()
+  })
+
   return (
     <div className="flex flex-col justify-between h-screen">
       <div className="flex flex-row justify-between items-center bg-brown p-4 text-white shadow-lg">
@@ -9,7 +28,7 @@ const Coffee = () => {
             Bom dia!
           </h1>
           <h2 className="text-2xl">
-            Felipe Kamada
+            {pb.authStore.model.name}
           </h2>
         </div>
         <img src="https://github.com/kamadarada.png" alt="profile picture" className="rounded-full h-20 w-20" />
@@ -18,7 +37,7 @@ const Coffee = () => {
         <img src={beams} alt="beams" />
         <div className="flex flex-col items-center absolute top-0">
           <p className="counter font-bold">
-            10
+            {remaning}
           </p>
           <p className="counter-subtitle font-bold top-0">
             Restantes
