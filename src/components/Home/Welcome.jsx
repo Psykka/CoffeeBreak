@@ -2,11 +2,38 @@ import googleLogo from '../../assets/google.svg'
 import instagramLogo from '../../assets/instagram.svg'
 import line from '../../assets/line.svg'
 
-import { auth } from '../../lib/pocketbase'
+import { auth, pb } from '../../lib/pocketbase'
 
 function Welcome() {
   const login = (type) => async () => {
     const user = await auth({}, type)
+
+    console.log(user)
+
+    if (!user) return
+
+    switch (type) {
+      case 'google':
+        const formData = new FormData()
+
+        const fileInput = document.createElement('input')
+        fileInput.type = 'file'
+
+        const avatar = await fetch(user.meta.avatarUrl)
+        const avatarBlob = await avatar.blob()
+        formData.append('avatar', avatarBlob)
+
+        formData.append('name', user.meta.name)
+        formData.append('email', user.meta.email)
+
+        await pb.collection('users').update(user.record.id, formData)
+        break;
+    
+      default:
+        break;
+    }
+
+    window.location.href = '/coffee'
   }
 
   return (

@@ -1,8 +1,14 @@
 import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
 
 import Logo from "../../assets/logo.png";
+import { pb } from "../../lib/pocketbase";
 
 function Home() {
+  useEffect(() => {
+    if (pb.authStore.isValid) window.location.href = "/coffee"
+  })
+
   return (
     <section className="flex flex-col justify-around h-screen">
       <div>

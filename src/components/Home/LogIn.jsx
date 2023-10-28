@@ -10,7 +10,10 @@ function LogIn() {
   const login = async (e) => {
     e.preventDefault()
     const user = await auth(credetials, 'email')
-    console.log(user)
+
+    if (!user) return
+
+    window.location.href = '/coffee'
   }
 
   return (
