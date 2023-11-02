@@ -1,12 +1,16 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import Swal from 'sweetalert2'
+import 'core-js/stable';
+import { useOpenPix } from '@openpix/react';
+
+import { pb } from '../../lib/pocketbase'
 import beams from '../../assets/beams.svg'
 import plus from '../../assets/plus.svg'
-import { pb } from '../../lib/pocketbase'
 
 const Coffee = () => {
   const [remaning, setRemaning] = useState({ quantity: 0 })
   const [avatar, setAvatar] = useState('')
+  const [charge, setCharge] = useState(null)
 
   const getRemaning = async () => {
     const res = await pb.collection('remainingDrink').getFullList()
@@ -18,6 +22,59 @@ const Coffee = () => {
     setAvatar(pb.files.getUrl(res, res.avatar))
   }
 
+  const onPay = async (charge) => {
+    Swal.fire({
+      title: 'Pagamento realizado!',
+      text: 'Obrigado por comprar mais café!',
+      icon: 'success',
+      confirmButtonText: 'Ok'
+    })
+  }
+
+  const { chargeCreate } = useOpenPix({
+    appID: 'Q2xpZW50X0lkX2RjYTI1OGE2LTZmNTItNDc1Yy04YjQ5LTc4M2U4YzFjOTE1NjpDbGllbnRfU2VjcmV0Xzh6ZEIxY1BSRm9naGpaTzBoWmFSbk51eXF4bnlsUFZzV2M0ZlFVa1pQQ1E9',
+    onPay,
+  });
+
+  const newCharge = async () => {
+    const payload = {
+      correlationID: Math.random().toString(36).substring(7),
+      value: 2000,
+      comment: 'CoffeeBreak',
+    }
+
+    const { charge, error } = await chargeCreate(payload);
+
+    if (error) {
+      Swal.fire({
+        title: 'Ops!',
+        text: 'Não foi possível criar a cobrança, tente novamente mais tarde!',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+
+      return;
+    }
+
+    setCharge(charge);
+
+    Swal.fire({
+      title: 'Cobrança criada!',
+      text: 'Agora é só pagar a cobrança que já adicionamos mais café para você!',
+      html: `
+        <a href="${charge.paymentLinkUrl}" class="underline" target="_blank">Clique aqui para pagar fora do site</a>
+        <img src="${charge.qrCodeImage}" alt="QR Code" height="220" />
+        <h1 class="text-3xl">R$ <b>${(charge.value / 100).toFixed(2)}</b></h1>
+        <p class="mt-2">Vencimento: ${new Date(charge.expiresDate).toLocaleDateString()}</p>
+        <button id="copy" class="bg-brown text-white p-2 rounded w-1/2 mt-4" onclick="navigator.clipboard.writeText('${charge.brCode}'); document.querySelector('#copy').innerHTML = 'Copiado!';">
+          Copiar código
+        </button>
+      `,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+    })
+  }
+
   const getDayTime = () => {
     const date = new Date()
     const hours = date.getHours()
@@ -27,16 +84,54 @@ const Coffee = () => {
   }
 
   const toggleModal = async () => {
-    const modal = document.querySelector('.fixed')
-    modal.classList.toggle('hidden')
+    if (remaning.quantity <= 0) return Swal.fire({
+      title: 'Ops!',
+      text: 'Não tem mais café, compre mais!',
+      icon: 'error',
+      confirmButtonText: 'Ok'
+    })
+
+    await Swal.fire({
+      title: 'Você tem certeza?',
+      text: 'Você realmente quer pegar um café?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        takeCoffee()
+      }
+    })
   }
 
   const takeCoffee = async () => {
-    if (remaning.quantity <= 0) return alert('Não há mais café disponível!')
-    const newRemaning = remaning.quantity - 1
     // await pb.collection('remainingDrink').update(remaning.id, { quantity: newRemaning })
+    const newRemaning = remaning.quantity - 1
+
     setRemaning({ ...remaning, quantity: newRemaning })
-    toggleModal()
+
+    Swal.fire({
+      title: 'Café pegado!',
+      text: 'Você pegou um café, aproveite!',
+      icon: 'success',
+      confirmButtonText: 'Ok'
+    })
+  }
+
+  const buyCoffee = async () => {
+    await Swal.fire({
+      title: 'Você tem certeza?',
+      text: 'Você realmente quer comprar mais café?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        newCharge()
+      }
+    })
   }
 
   useEffect(() => {
@@ -48,23 +143,6 @@ const Coffee = () => {
 
   return (
     <>
-      <div className="fixed bg-brown top-0 left-0 w-full h-full bg-black bg-opacity-40 z-50 hidden">
-        <div className="flex flex-col justify-center items-center h-full">
-          <div className="bg-white rounded-lg p-4">
-            <p className="text-center text-xl font-semibold">
-              Deseja pegar um café?
-            </p>
-            <div className="flex flex-row mt-4 gap-2">
-              <button className="bg-brown text-white p-2 rounded w-full" onClick={takeCoffee}>
-                Sim
-              </button>
-              <button className="bg-brown text-white p-2 rounded w-full" onClick={toggleModal}>
-                Não
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="flex flex-col justify-between h-screen">
         <div className="flex flex-row justify-between items-center bg-brown p-4 text-white shadow-lg">
           <div>
@@ -88,7 +166,7 @@ const Coffee = () => {
                 Restantes
               </p>
             </div>
-            <button>
+            <button onClick={buyCoffee}>
               <img src={plus} alt="Comprar mais café" />
             </button>
           </div>
