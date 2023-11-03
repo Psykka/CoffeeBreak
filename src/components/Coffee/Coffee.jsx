@@ -38,7 +38,7 @@ const Coffee = () => {
 
   const newCharge = async () => {
     const payload = {
-      correlationID: Math.random().toString(36).substring(7),
+      correlationID: `${pb.authStore.model.id}-${new Date().getTime()}`,
       value: 2000,
       comment: 'CoffeeBreak',
     }
