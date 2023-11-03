@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import Swal from 'sweetalert2'
-import 'core-js/stable';
-import { useOpenPix } from '@openpix/react';
 
 import { pb } from '../../lib/pocketbase'
 import beams from '../../assets/beams.svg'
@@ -10,11 +8,17 @@ import plus from '../../assets/plus.svg'
 const Coffee = () => {
   const [remaning, setRemaning] = useState({ quantity: 0 })
   const [avatar, setAvatar] = useState('')
-  const [charge, setCharge] = useState(null)
+  const [isPaing, setIsPaying] = useState(false)
 
   const getRemaning = async () => {
     const res = await pb.collection('remainingDrink').getFullList()
     if (res.length > 0) setRemaning(res[0])
+
+    // subscribe to changes
+    pb.collection('remainingDrink').unsubscribe('*');
+    pb.collection('remainingDrink').subscribe('*', (e) => {
+      setRemaning(e.record)
+    })
   }
 
   const getAvatar = async () => {
@@ -22,7 +26,9 @@ const Coffee = () => {
     setAvatar(pb.files.getUrl(res, res.avatar))
   }
 
-  const onPay = async (charge) => {
+  const onPay = async () => {
+    setIsPaying(false)
+
     Swal.fire({
       title: 'Pagamento realizado!',
       text: 'Obrigado por comprar mais café!',
@@ -31,41 +37,26 @@ const Coffee = () => {
     })
   }
 
-  const { chargeCreate } = useOpenPix({
-    appID: 'Q2xpZW50X0lkX2RjYTI1OGE2LTZmNTItNDc1Yy04YjQ5LTc4M2U4YzFjOTE1NjpDbGllbnRfU2VjcmV0Xzh6ZEIxY1BSRm9naGpaTzBoWmFSbk51eXF4bnlsUFZzV2M0ZlFVa1pQQ1E9',
-    onPay,
-  });
-
   const newCharge = async () => {
-    const payload = {
-      correlationID: `${pb.authStore.model.id}-${new Date().getTime()}`,
-      value: 2000,
-      comment: 'CoffeeBreak',
-    }
+    const url = pb.baseUrl + '/payment-intent/' + pb.authStore.model.id
 
-    const { charge, error } = await chargeCreate(payload);
+    const charge = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(res => res.json())
 
-    if (error) {
-      Swal.fire({
-        title: 'Ops!',
-        text: 'Não foi possível criar a cobrança, tente novamente mais tarde!',
-        icon: 'error',
-        confirmButtonText: 'Ok'
-      })
-
-      return;
-    }
-
-    setCharge(charge);
+    setIsPaying(true)
 
     Swal.fire({
       title: 'Cobrança criada!',
       text: 'Agora é só pagar a cobrança que já adicionamos mais café para você!',
       html: `
-        <a href="${charge.paymentLinkUrl}" class="underline" target="_blank">Clique aqui para pagar fora do site</a>
-        <img src="${charge.qrCodeImage}" alt="QR Code" height="220" />
+        <a href="${charge.paymentLinkUrl}" class="underline">Clique aqui para pagar fora do site</a>
+        <img src="${charge.pixImage}" alt="QR Code" height="220" />
         <h1 class="text-3xl">R$ <b>${(charge.value / 100).toFixed(2)}</b></h1>
-        <p class="mt-2">Vencimento: ${new Date(charge.expiresDate).toLocaleDateString()}</p>
+        <p class="mt-2">Expira em: ${charge.expiresIn / 60000} minutos</p>
         <button id="copy" class="bg-brown text-white p-2 rounded w-1/2 mt-4" onclick="navigator.clipboard.writeText('${charge.brCode}'); document.querySelector('#copy').innerHTML = 'Copiado!';">
           Copiar código
         </button>
@@ -100,16 +91,37 @@ const Coffee = () => {
       cancelButtonText: 'Não'
     }).then((result) => {
       if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Fazendo café...',
+          text: 'Aguarde um momento',
+          icon: 'info',
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading()
+          }
+        })
+
         takeCoffee()
       }
     })
   }
 
   const takeCoffee = async () => {
-    // await pb.collection('remainingDrink').update(remaning.id, { quantity: newRemaning })
-    const newRemaning = remaning.quantity - 1
+    const res = await fetch(pb.baseUrl + '/system-take-coffee', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: pb.authStore.token
+      },
+    })
 
-    setRemaning({ ...remaning, quantity: newRemaning })
+    if (res.status !== 200) return Swal.fire({
+      title: 'Ops!',
+      text: 'Não foi possível pegar o café, tente novamente mais tarde!',
+      icon: 'error',
+      confirmButtonText: 'Ok'
+    })
 
     Swal.fire({
       title: 'Café pegado!',
@@ -129,6 +141,17 @@ const Coffee = () => {
       cancelButtonText: 'Não'
     }).then((result) => {
       if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Criando cobrança...',
+          text: 'Aguarde um momento',
+          icon: 'info',
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading()
+          }
+        })
+
         newCharge()
       }
     })
@@ -141,6 +164,12 @@ const Coffee = () => {
     getAvatar()
   }, [])
 
+  useEffect(() => {
+    if (isPaing) {
+      onPay()
+    }
+  }, [remaning])
+ 
   return (
     <>
       <div className="flex flex-col justify-between h-screen">

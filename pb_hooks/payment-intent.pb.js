@@ -72,5 +72,8 @@ routerAdd("POST", "/payment-intent/:userId", (c) => {
     return c.json(200, {
         pixImage: res.json.charge.qrCodeImage,
         brCode: res.json.brCode,
+        paymentLinkUrl: res.json.charge.paymentLinkUrl,
+        value: res.json.charge.value,
+        expiresIn: res.json.charge.expiresIn,
     })
 })

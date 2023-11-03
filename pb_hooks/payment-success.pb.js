@@ -6,6 +6,10 @@ routerAdd("POST", "/payment-success", (c) => {
         return c.string(404, "Payment not found")
     }
 
+    if (payment.get("status") === "paid") {
+        return c.string(200, "OK - Payment already paid")
+    }
+
     payment.set("status", "paid")
     $app.dao().saveRecord(payment)
 
