@@ -83,8 +83,8 @@ const Coffee = () => {
     })
 
     await Swal.fire({
-      title: 'Comprar mais café?',
-      text: 'Uma cobrança será gerada para adquirir mais cafés',
+      title: 'Deseja retirar um café?',
+      text: 'Isso irá descontar um café! Mas vale a pena!',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Sim',
@@ -133,8 +133,8 @@ const Coffee = () => {
 
   const buyCoffee = async () => {
     await Swal.fire({
-      title: 'Retirar café?',
-      text: 'Isso irá descontar um café! Mas vale a pena!',
+      title: 'Deseja comprar mais créditos?',
+      text: 'Uma cobrança será gerada para o pagamento',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Sim',
