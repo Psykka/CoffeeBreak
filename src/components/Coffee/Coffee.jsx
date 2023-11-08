@@ -78,14 +78,14 @@ const Coffee = () => {
   const toggleModal = async () => {
     if (remaning.quantity <= 0) return Swal.fire({
       title: 'Ops!',
-      text: 'Não tem mais café, compre mais!',
+      text: 'Acabou o café, compre mais!',
       icon: 'error',
       confirmButtonText: 'Ok'
     })
 
     await Swal.fire({
-      title: 'Você tem certeza?',
-      text: 'Você realmente quer pegar um café?',
+      title: 'Deseja retirar um café?',
+      text: 'Isso irá descontar um café! Mas vale a pena!',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Sim',
@@ -93,7 +93,7 @@ const Coffee = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Fazendo café...',
+          title: 'Preparando café...',
           text: 'Aguarde um momento',
           icon: 'info',
           showConfirmButton: false,
@@ -119,14 +119,14 @@ const Coffee = () => {
 
     if (res.status !== 200) return Swal.fire({
       title: 'Ops!',
-      text: 'Não foi possível pegar o café, tente novamente mais tarde!',
+      text: 'Não foi possível retirar o café, tente novamente mais tarde!',
       icon: 'error',
       confirmButtonText: 'Ok'
     })
 
     Swal.fire({
-      title: 'Café pegado!',
-      text: 'Você pegou um café, aproveite!',
+      title: 'O café está pronto!',
+      text: 'aproveite!',
       icon: 'success',
       confirmButtonText: 'Ok'
     })
@@ -134,8 +134,8 @@ const Coffee = () => {
 
   const buyCoffee = async () => {
     await Swal.fire({
-      title: 'Você tem certeza?',
-      text: 'Você realmente quer comprar mais café?',
+      title: 'Deseja comprar mais créditos?',
+      text: 'Uma cobrança será gerada para o pagamento',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Sim',
