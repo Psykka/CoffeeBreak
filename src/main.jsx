@@ -7,17 +7,18 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+import './index.css'
 import Home from './components/Home/Home'
 import Welcome from './components/Home/Welcome'
 import SignIn from './components/SignIn'
 import LogIn from "./components/Home/LogIn";
 import Coffee from "./components/Coffee/Coffee";
 import PasswordRecovery from "./components/Password/PasswordRecovery";
-import './index.css'
 import EmailCheck from "./components/Password/EmailCheck";
 import CreatePassword from "./components/Password/CreatePassword";
 import CoffeePrice from "./components/Admin/CoffeePrice";
 import ListUsers from "./components/Admin/ListUsers";
+import AdminLogin from "./components/Admin/AdminHome";
 
 import { store } from './store'
 
@@ -35,6 +36,18 @@ const router = createBrowserRouter([
         element: <LogIn />
       }
     ],
+  },
+  {
+    path: '/admin',
+    element: <AdminLogin />
+  },
+  {
+    path: '/admin/users',
+    element: <ListUsers />
+  },
+  {
+    path: '/admin/coffee',
+    element: <CoffeePrice />
   },
   {
     path: '/signin',
@@ -60,14 +73,6 @@ const router = createBrowserRouter([
     path:'/CreatePassword',
     element: <CreatePassword/>
   },
-  {
-    path:'/CoffeePrice',
-    element: <CoffeePrice/>
-  },
-  {
-    path:'/ListUsers',
-    element: <ListUsers/>
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

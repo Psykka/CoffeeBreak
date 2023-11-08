@@ -175,7 +175,7 @@ const Coffee = () => {
       onPay()
     }
   }, [remaning])
- 
+
   return (
     <>
       <div className="flex flex-col justify-between h-screen">
@@ -188,7 +188,15 @@ const Coffee = () => {
               {pb.authStore.model && pb.authStore.model.name ? pb.authStore.model.name : 'Usuário'}
             </h2>
           </div>
-          <img src={avatar || pfpimage} alt="profile picture" className="rounded-full h-20 w-20" />
+          <div className="flex flex-row justify-between items-center gap-10">
+            <a className="text-2xl font-semibold cursor-pointer" onClick={() => {
+              pb.authStore.clear()
+              window.location.href = '/'
+            }}>
+              Sair
+            </a>
+            <img src={avatar || pfpimage} alt="profile picture" className="rounded-full h-20 w-20" />
+          </div>
         </div>
         <div className="flex flex-col text-white items-center relative">
           <img src={beams} alt="beams" className="h-80 w-80" />
