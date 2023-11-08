@@ -58,9 +58,14 @@ const Coffee = () => {
         <img src="${charge.pixImage}" alt="QR Code" height="220" />
         <h1 class="text-3xl">R$ <b>${(charge.value / 100).toFixed(2)}</b></h1>
         <p class="mt-2">Expira em: ${charge.expiresIn / 60000} minutos</p>
-        <button id="copy" class="bg-brown text-white p-2 rounded w-1/2 mt-4" onclick="navigator.clipboard.writeText('${charge.brCode}'); document.querySelector('#copy').innerHTML = 'Copiado!';">
-          Copiar código
-        </button>
+        <div class="flex flex-row justify-between gap-2">
+          <button id="copy" class="bg-brown text-white p-2 rounded w-1/2 mt-4" onclick="navigator.clipboard.writeText('${charge.brCode}'); document.querySelector('#copy').innerHTML = 'Copiado!';">
+            Copiar código
+          </button>
+          <button id="paid" class="bg-brown text-white p-2 rounded w-1/2 mt-4" onclick="window.location.reload();">
+            Já paguei
+          </button>
+        </div>
       `,
       showConfirmButton: false,
       allowOutsideClick: false,
