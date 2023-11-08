@@ -28,18 +28,20 @@ function SignIn() {
     await auth({ ...registry }, 'email')
 
     // upload avatar
-    const user = await pb.collection('users').getOne(pb.authStore.model.id)
-    const formData = new FormData()
-
-    const fileInput = document.createElement('input')
-    fileInput.type = 'file'
-
-    const avatar = await fetch(registry.pfp)
-    const avatarBlob = await avatar.blob()
-
-    formData.append('avatar', avatarBlob)
-
-    await pb.collection('users').update(user.id, formData)
+    if (registry.pfp) {
+      const user = await pb.collection('users').getOne(pb.authStore.model.id)
+      const formData = new FormData()
+  
+      const fileInput = document.createElement('input')
+      fileInput.type = 'file'
+  
+      const avatar = await fetch(registry.pfp)
+      const avatarBlob = await avatar.blob()
+  
+      formData.append('avatar', avatarBlob)
+  
+      await pb.collection('users').update(user.id, formData)
+    }
 
     if (pb.authStore.isValid) {
       return window.location.href = '/coffee'
