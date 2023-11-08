@@ -18,7 +18,7 @@ function PasswordRecovery() {
         <div className="flex w-64 flex-col space-y-4 w-1/2 mt-5 md:w-1/3 lg:w-1/4 xl:w-1/6">
           <input className=" rounded input-home" type="email" placeholder="E-Mail" />
         </div>
-        <button href="/EmailCheck"className='bg-brown text-white w-64 p-2 rounded w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 mt-10'>
+        <button onClick={()=>{window.location.href='/EmailCheck'}} className='bg-brown text-white w-64 p-2 rounded w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 mt-10'>
           Enviar email
         </button>
       </form>

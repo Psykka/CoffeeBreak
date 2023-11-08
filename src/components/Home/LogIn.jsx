@@ -47,7 +47,7 @@ function LogIn() {
           <input className="input-home" type="password" placeholder="Senha" value={credetials.password} onChange={(e) => setCredetials({ ...credetials, password: e.target.value })} />
         </div>
         <p className="text-sm mt-2 text-right text-brown">
-          <a href="#">Esqueci minha senha</a>
+          <a href="/PasswordRecovery">Esqueci minha senha</a>
         </p>
         <button className='btn-outline w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 mt-6'>
           Entrar
