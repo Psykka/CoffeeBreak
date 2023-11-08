@@ -14,7 +14,7 @@ function PasswordRecovery() {
               um link de recuperação de senha 
             </p>
         </div>
-        <form className="flex flex-col items-center mt-12">
+        <form onSubmit={(e)=>{e.preventDefault()}} className="flex flex-col items-center mt-12">
         <div className="flex w-64 flex-col space-y-4 w-1/2 mt-5 md:w-1/3 lg:w-1/4 xl:w-1/6">
           <input className=" rounded input-home" type="email" placeholder="E-Mail" />
         </div>
