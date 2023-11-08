@@ -1,21 +1,54 @@
 import pfp from '../assets/pfp.png'
 import { useState } from 'react'
 import { auth, pb } from '../lib/pocketbase'
+import Swal from 'sweetalert2'
 
 function SignIn() {
   const [registry, setRegistry] = useState({
     name: '',
     email: '',
     password: '',
+    pfp: null
   })
 
   const register = async (e) => {
     e.preventDefault()
+
+    Swal.fire({
+      title: 'Criando conta...',
+      text: 'Aguarde enquanto criamos sua conta',
+      icon: 'info',
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
+
     await auth({ ...registry }, 'singin')
     await auth({ ...registry }, 'email')
 
+    // upload avatar
+    const user = await pb.collection('users').getOne(pb.authStore.model.id)
+    const formData = new FormData()
+
+    const fileInput = document.createElement('input')
+    fileInput.type = 'file'
+
+    const avatar = await fetch(registry.pfp)
+    const avatarBlob = await avatar.blob()
+
+    formData.append('avatar', avatarBlob)
+
+    await pb.collection('users').update(user.id, formData)
+
     if (pb.authStore.isValid) {
       return window.location.href = '/coffee'
+    }
+  }
+
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setRegistry({ ...registry, pfp: URL.createObjectURL(event.target.files[0]) })
     }
   }
 
@@ -31,9 +64,9 @@ function SignIn() {
       </div>
       <form className='flex flex-col items-center space-y-4' onSubmit={register}>
         <div className='flex flex-col items-center'>
-          <input type="file" id="file" className="hidden" />
+          <input type="file" id="file" className="hidden" onChange={onImageChange} />
           <label htmlFor="file">
-            <img src={pfp} alt="profile picture" className="cursor-pointer rounded-full h-41 w-41" />
+            <img alt="profile picture" src={registry.pfp || pfp} className="cursor-pointer rounded-full h-48 w-48" />
             <p className='text-brown font-semibold text-md mt-4 cursor-pointer'>
               Adicionar foto
             </p>

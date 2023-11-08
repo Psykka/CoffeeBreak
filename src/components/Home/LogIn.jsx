@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { auth } from '../../lib/pocketbase'
+import Swal from 'sweetalert2'
 
 function LogIn() {
   const [credetials, setCredetials] = useState({
@@ -7,11 +8,33 @@ function LogIn() {
     password: '',
   })
 
+  const showError = (title, text) => {
+    Swal.fire({
+      title,
+      text,
+      icon: 'error',
+      confirmButtonText: 'Ok'
+    })
+  }
+
   const login = async (e) => {
     e.preventDefault()
-    const user = await auth(credetials, 'email')
+    if (!credetials.email || !credetials.password) return showError('Erro ao entrar', 'Preencha todos os campos')
 
-    if (!user) return
+    Swal.fire({
+      title: 'Entrando...',
+      text: 'Aguarde enquanto entramos na sua conta',
+      icon: 'info',
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading()
+      }
+    })
+
+    const user = await auth(credetials, 'email')
+      .catch(() => showError('Erro ao entrar', 'Verifique se o e-mail e a senha estão corretos'))
+
+    if (!user) return showError('Erro ao entrar', 'Verifique se o e-mail e a senha estão corretos')
 
     window.location.href = '/coffee'
   }
