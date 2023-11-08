@@ -12,6 +12,7 @@ function SignIn() {
   const register = async (e) => {
     e.preventDefault()
     await auth({ ...registry }, 'singin')
+    await auth({ ...registry }, 'email')
 
     if (pb.authStore.isValid) {
       return window.location.href = '/coffee'

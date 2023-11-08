@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import { pb } from '../../lib/pocketbase'
 import beams from '../../assets/beams.svg'
 import plus from '../../assets/plus.svg'
+import pfpimage from '../../assets/pfpimage.jpg'
 
 const Coffee = () => {
   const [remaning, setRemaning] = useState({ quantity: 0 })
@@ -182,7 +183,7 @@ const Coffee = () => {
               {pb.authStore.model && pb.authStore.model.name ? pb.authStore.model.name : 'Usuário'}
             </h2>
           </div>
-          <img src={avatar} alt="profile picture" className="rounded-full h-20 w-20" />
+          <img src={avatar || pfpimage} alt="profile picture" className="rounded-full h-20 w-20" />
         </div>
         <div className="flex flex-col text-white items-center relative">
           <img src={beams} alt="beams" className="h-80 w-80" />
